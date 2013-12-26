@@ -4,16 +4,26 @@ package
     
     import blitter.*;
     
+    import chat.*;
+    
     import flash.external.*;
     import flash.utils.*;
-	import chat.*;
     
     import playerio.*;
     
+    import utility.*;
+	
     public class mygame extends blitter.BlGame
     {
+		
+		
         public function mygame()
         {
+			//Compressor.CompressQuadTree(null, null, 0, 0, 0, 0);
+			//Compressor.DecompressQuadTree(null, null, 0, 0, 0, 0);
+			//Compressor.
+			
+			
             var lstate:LoadState;
             var roomname:String;
 
@@ -196,7 +206,25 @@ package
                     crow.push(m.getInt(a));
                     ++a;
                 }
+				
+				//((var temp:*= utility.Compressor.
+				
                 levelArr.push(crow);
+				
+				var temp:ByteArray = new ByteArray;
+				utility.Compressor.CompressQuadTree(levelArr, temp, 1, 1, 198, 198);
+				
+				/*levelArr = [];
+				
+				for (var iii:int = 0; iii < 200; iii++)
+				{
+					levelArr.push([]);
+				}*/
+				
+				utility.Compressor.DecompressQuadTree(levelArr, temp, 1, 1, 198, 198);
+				
+				
+				
                 state = new PlayState(connection, levelArr, id, name);
                 blitter.Bl.data.canEdit = canEdit;
                 var loc2:*;
@@ -223,6 +251,8 @@ package
                     return;
                 });
                 addChild(loc2);
+				
+				
 				
                 return;
             })
