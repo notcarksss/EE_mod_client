@@ -6,10 +6,13 @@ package
     
     import flash.display.*;
     import flash.geom.Rectangle;
+    import flash.utils.ByteArray;
     
     import mx.states.AddChild;
     
     import playerio.*;
+    
+    import utility.Compressor;
     
     public class PlayState extends blitter.BlState
     {
@@ -227,6 +230,28 @@ package
 					break;
 				}
             })
+			this.connection.addMessageHandler("reset", function(arg1:playerio.Message, isDeflated:Boolean, byteArray:ByteArray) : void
+			{
+				var levelArr:Array = utility.Compressor.DecompressWorld(
+					new utility.CompressedData(isDeflated, byteArray));
+				
+				var levelArr2:Array = [200];
+				
+				for(var y:int = 0; y < 200; y++)
+				{
+					levelArr2[y] = [200];
+					for (var x:int = 1; x < 200; x++)
+					{
+						//if (x == 0 || x == 199 || y == 0 || y == 199)
+						//	cave.hitmap[y][x] = 9;
+						//else
+						levelArr2[y][x] = levelArr[x][y];
+					}
+				}
+				
+				cave.setMapArray(levelArr2);
+			})
+				
             this.connection.send("init2");
             return;
         }

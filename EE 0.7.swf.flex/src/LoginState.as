@@ -99,7 +99,7 @@ package
             return;
         }
 		
-		public function LoadLogin()
+		public function LoadLogin() : void
 		{
 			this.login = new Login(this.loginCallback);
 			this.login.x = 20;
@@ -146,7 +146,7 @@ package
         }
 		
 		
-		private function loginCallback(email:String, password:String)
+		private function loginCallback(email:String, password:String) : void
 		{
 			
 			//Login for a user with QuickConnect for Simple Users
@@ -162,7 +162,7 @@ package
 				});
 		}
 		
-		private function registerCallback(email:String, username:String, password:String)
+		private function registerCallback(email:String, username:String, password:String) : void
 		{
 			
 			//Login for a user with QuickConnect for Simple Users
@@ -185,7 +185,7 @@ package
 
 		}
 		
-		private function onLogin(client:Client)
+		private function onLogin(client:Client) : void
 		{
 			reset();
 			callback(client);

@@ -45,7 +45,7 @@ package
 		
 		public var hideBlue:Boolean=false;
 		
-		public var currentFace = 0;
+		public var currentFace:int = 0;
 		
 		
         public function Cave()

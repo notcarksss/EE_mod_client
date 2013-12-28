@@ -23,7 +23,7 @@ package
             this.cave = arg1;
             this.hitmap = arg1;
 			
-			this.name = new BlText(8, 256, 16777215, "center");
+			this.name = new BlText(8, 256, Player.isAdmin(name)? 16757760 : 16777215, "center");
 			this.name.text = name;
 			//this.name.defaultTextFormat = new flash.text.TextFormat(new system().fontName, 14);
 			//this.name.
@@ -216,6 +216,11 @@ package
             }
             return;
         }
+		
+		public static function isAdmin(name:String) : Boolean
+		{
+			return (name == "ostkaka" || name == "gustav9797");
+		}
 
 		protected var name:BlText;
 		

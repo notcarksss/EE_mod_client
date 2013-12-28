@@ -445,6 +445,7 @@ package
 			}
 			else */
 			//{
+			if (loc1.length > 0)
 				this.connection.send("say", loc1);
 			//}
 			return;

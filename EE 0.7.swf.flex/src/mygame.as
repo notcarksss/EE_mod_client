@@ -82,7 +82,7 @@ package
 			
         }
 		
-		private function showLogin(arg1:LoadState=null)
+		private function showLogin(arg1:LoadState=null) : void
 		{
 			var lstate:LoadState=null;
 			lstate = arg1;
@@ -179,7 +179,7 @@ package
             isLockedRoom = arg4;
             SWFStats.Log.Play();
 			
-            connection.addMessageHandler("init", function (arg1:playerio.Message, arg2:int, name:String, arg3:Boolean):void
+            connection.addMessageHandler("init", function (arg1:playerio.Message, arg2:int, name:String, arg3:Boolean, isDeflated:Boolean, byteArray:ByteArray):void
             {
                 var m:playerio.Message;
                 var id:int;
@@ -193,10 +193,10 @@ package
                 id = arg2;
                 canEdit = arg3;
                 blitter.Bl.data.isLockedRoom = isLockedRoom || !canEdit;
-                levelArr = [];
-                crow = [];
+                //levelArr = [];
+                //crow = [];
                 a = 3;
-                while (a < m.length) 
+                /*while (a < m.length) 
                 {
                     if (crow.length >= 200) 
                     {
@@ -205,27 +205,76 @@ package
                     }
                     crow.push(m.getInt(a));
                     ++a;
-                }
+                }*/
 				
 				//((var temp:*= utility.Compressor.
 				
-                levelArr.push(crow);
+                /*levelArr.push(crow);
 				
 				var temp:ByteArray = new ByteArray;
-				utility.Compressor.CompressQuadTree(levelArr, temp, 1, 1, 198, 198);
+				utility.Compressor.CompressQuadTree(levelArr, temp, 1, 1, 199, 199);
 				
-				/*levelArr = [];
+				trace("World compressed to " + temp.length.toString() + " bytes.");
 				
-				for (var iii:int = 0; iii < 200; iii++)
+				/*levelArr = [];* /
+				
+				for (var yyy:int = 1; yyy < 199; yyy++)
 				{
-					levelArr.push([]);
-				}*/
+					for (var xxx:int = 1; xxx < 199; xxx++)
+					{
+						levelArr[yyy][xxx] = 22;
+					}
+				}
 				
-				utility.Compressor.DecompressQuadTree(levelArr, temp, 1, 1, 198, 198);
+				trace("World decompressed from " + utility.Compressor.DecompressQuadTree(levelArr, temp, 1, 1, 199, 199).toString() + " bytes.");
+				*/
+				levelArr = [200];
 				
+				for (var x:int = 0; x < 200; x++)
+				{
+					levelArr[x] = [200];
+				}
 				
+				/*if (isDeflated)
+				{
+					trace("Deflate-compressed size of byte array: " + byteArray.length.toString());
+					
+					byteArray.inflate();
+				}
+				trace("QuadTree-Compressed size of byte array: " + byteArray.length.toString());
 				
-                state = new PlayState(connection, levelArr, id, name);
+				//utility.Compressor.
+				//var size:int = utility.Compressor.DecompressQuadTree(levelArr, new utility.ByteQueueReader(byteArray), 1, 1, 199, 199);
+				
+				//trace("World decompressed from " + size.toString() + " bytes.");
+				
+				byteArray.compress();//.deflate();
+				
+				trace(byteArray.length.toString());
+				
+				byteArray.uncompress();
+				
+				trace(byteArray.length.toString());
+				//byteArray.de
+				*/
+				
+				levelArr = Compressor.DecompressWorld(new CompressedData(isDeflated, byteArray));
+				
+				var levelArr2:Array = [200];
+				
+				for(var y:int = 0; y < 200; y++)
+				{
+					levelArr2[y] = [200];
+					for (var xx:int = 0; xx < 200; xx++)
+					{
+						if (xx == 0 || xx == 199 || y == 0 || y == 199)
+							levelArr2[y][xx] = 9;
+						else
+							levelArr2[y][xx] = levelArr[xx][y];
+					}
+				}
+				
+                state = new PlayState(connection, levelArr2, id, name);
                 blitter.Bl.data.canEdit = canEdit;
                 var loc2:*;
 				
@@ -233,7 +282,7 @@ package
 				sidechat.x = 640 - 1;
 				if (sidechat) 
 				{
-					sidechat.setMe(arg2.toString(), name, true);
+					sidechat.setMe(arg2.toString(), name, Player.isAdmin(name));
 					//align = flash.display.StageAlign.TOP_LEFT;
 					addChild(sidechat);//AddChild(sidechat);
 				}

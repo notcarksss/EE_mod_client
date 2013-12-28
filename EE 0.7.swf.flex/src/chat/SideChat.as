@@ -45,7 +45,7 @@ package chat
 				}
 				else 
 				{
-					addUser(arg2.toString(), arg3, arg3 == "ostkaka"/*arg9*/);
+					addUser(arg2.toString(), arg3, arg3 == "ostkaka" || arg3 == "gustav9797"/*arg9*/);
 				}
 				return;
 			})
@@ -65,6 +65,11 @@ package chat
 				addLine(arg2, arg3);
 				return;
 			})
+			/*c.addMessageHandler("info", function (arg1:playerio.Message, arg2:int, arg3:String):void
+			{
+				addChat(arg2.toString(), arg3);
+				return;
+			})*/
 			addChild(new this.CHATBG());
 			this.userlist = new sample.ui.components.scroll.ScrollBox().margin(1, 1, 1, 1).add(this.ucontainer);
 			this.userlist.border(1, 1118481, 1);
